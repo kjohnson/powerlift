@@ -3,19 +3,20 @@
 namespace App\Nova;
 
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\HasManyThrough;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Member extends Resource
+class FitnessClass extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Member>
+     * @var class-string<\App\Models\FitnessClass>
      */
-    public static $model = \App\Models\Member::class;
+    public static $model = \App\Models\FitnessClass::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -31,7 +32,7 @@ class Member extends Resource
      */
     public static $search = [
         'name',
-        'member_id',
+        'description',
     ];
 
     /**
@@ -43,21 +44,21 @@ class Member extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make(__('Name'), 'name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-            Text::make(__('Membership ID'), 'member_id')
-                ->sortable()
-                ->rules('required'),
-            Text::make(__('PIN'), 'pin')
-                ->onlyOnForms()
-                ->rules('max:4'),
+            Text::make('name')->sortable(),
+            Textarea::make('description')->sortable(),
+            HasMany::make('Sessions', 'fitnessClassSessions', FitnessClassSession::class),
         ];
     }
 
-    public function subtitle()
+    /**
+     * Get the menu that should represent the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Laravel\Nova\Menu\MenuItem
+     */
+    public function menu(Request $request)
     {
-        return "Member ID: $this->member_id";
+        return parent::menu($request)->name('Classes');
     }
 
     /**

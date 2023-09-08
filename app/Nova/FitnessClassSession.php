@@ -2,27 +2,28 @@
 
 namespace App\Nova;
 
-use Illuminate\Http\Request;
-use Laravel\Nova\Fields\HasManyThrough;
+use Carbon\CarbonInterval;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
-use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Member extends Resource
+class FitnessClassSession extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Member>
+     * @var class-string<\App\Models\FitnessClassSession>
      */
-    public static $model = \App\Models\Member::class;
+    public static $model = \App\Models\FitnessClassSession::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'name';
+    public static $title = 'start_time';
 
     /**
      * The columns that should be searched.
@@ -30,9 +31,34 @@ class Member extends Resource
      * @var array
      */
     public static $search = [
-        'name',
-        'member_id',
+        'id',
     ];
+
+    /**
+     * Indicates if the resource should be displayed in the sidebar.
+     *
+     * @var bool
+     */
+    public static $displayInNavigation = false;
+
+    /**
+     * The relationships that should be eager loaded on index queries.
+     *
+     * @var array
+     */
+    public static $with = ['fitnessClass'];
+
+
+    /**
+     * Get the value that should be displayed to represent the resource.
+     *
+     * @return string
+     */
+    public function title()
+    {
+        return sprintf('%s (%s)',$this->fitnessClass->name, $this->start_time->format('F d Y H:i'));
+    }
+
 
     /**
      * Get the fields displayed by the resource.
@@ -43,21 +69,15 @@ class Member extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make(__('Name'), 'name')
-                ->sortable()
-                ->rules('required', 'max:255'),
-            Text::make(__('Membership ID'), 'member_id')
-                ->sortable()
-                ->rules('required'),
-            Text::make(__('PIN'), 'pin')
-                ->onlyOnForms()
-                ->rules('max:4'),
+            ID::make()->sortable(),
+            BelongsTo::make('Class', 'fitnessClass', FitnessClass::class),
+            DateTime::make('Start Time')
+                ->step(CarbonInterval::minutes(15)),
+            DateTime::make('End Time')
+                ->nullable()
+                ->step(CarbonInterval::minutes(15)),
+            HasMany::make('Registrations', 'fitnessClassRegistrations', FitnessClassRegistration::class),
         ];
-    }
-
-    public function subtitle()
-    {
-        return "Member ID: $this->member_id";
     }
 
     /**
