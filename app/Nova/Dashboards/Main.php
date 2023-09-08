@@ -9,6 +9,16 @@ use Laravel\Nova\Dashboards\Main as Dashboard;
 class Main extends Dashboard
 {
     /**
+     * Get the displayable name of the dashboard.
+     *
+     * @return string
+     */
+    public function name()
+    {
+        return 'Dashboard';
+    }
+
+    /**
      * Get the cards for the dashboard.
      *
      * @return array
