@@ -17,4 +17,9 @@ class Member extends Model
         'pin',
         'member_id',
     ];
+
+    public function checkins()
+    {
+        return $this->hasMany(Checkin::class);
+    }
 }
