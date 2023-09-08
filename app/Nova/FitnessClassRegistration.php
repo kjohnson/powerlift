@@ -4,7 +4,9 @@ namespace App\Nova;
 
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class FitnessClassRegistration extends Resource
@@ -49,7 +51,26 @@ class FitnessClassRegistration extends Resource
     {
         return [
             BelongsTo::make('Session', 'fitnessClassSession', FitnessClassSession::class),
-            BelongsTo::make('Member', 'member', Member::class),
+            Text::make('Name', function () {
+                return $this->member
+                    ? "{$this->member->name} ({$this->member->member_id})"
+                    : "$this->reference (Guest)";
+            })->onlyOnIndex(),
+            BelongsTo::make('Member', 'member', Member::class)
+                ->nullable()
+                ->hideFromIndex(),
+            Text::make('Reference')
+                ->nullable()
+                ->hideFromIndex()
+                ->dependsOn(
+                    ['member'],
+                    function (Text $field, NovaRequest $request, FormData $formData) {
+                        if ($formData->member) {
+                            $field->hide();
+                        }
+                    }
+                ),
+
         ];
     }
 
