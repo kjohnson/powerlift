@@ -2,7 +2,17 @@
 
 namespace App\Providers;
 
+use App\Nova\Checkin;
+use App\Nova\FitnessClass;
+use App\Nova\FitnessClassRegistration;
+use App\Nova\FitnessClassSession;
+use App\Nova\Member;
+use App\Nova\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Dashboards\Main;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 
@@ -16,6 +26,24 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        Nova::mainMenu(function (Request $request) {
+            return [
+                MenuSection::make('Dashboard', [
+                    MenuItem::dashboard(\App\Nova\Dashboards\Main::class)->name('Overview')
+                ])->icon('collection'),
+                MenuSection::make('Calendar', [
+                    MenuItem::resource(FitnessClass::class)->name('Classes'),
+                    MenuItem::resource(FitnessClassSession::class)->name('Sessions'),
+                    MenuItem::resource(FitnessClassRegistration::class)->name('Registrations'),
+                ])->icon('calendar')->collapsable(),
+                MenuSection::make('Membership', [
+                    MenuItem::resource(Member::class),
+                    MenuItem::resource(Checkin::class),
+                ])->icon('identification')->collapsable(),
+                MenuSection::resource(User::class)->icon('user'),
+            ];
+        });
     }
 
     /**
