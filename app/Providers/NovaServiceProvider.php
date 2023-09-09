@@ -15,6 +15,7 @@ use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Wdelfuego\NovaCalendar\NovaCalendar;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -32,7 +33,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Dashboard', [
                     MenuItem::dashboard(\App\Nova\Dashboards\Main::class)->name('Overview')
                 ])->icon('collection'),
-                MenuSection::make('Calendar', [
+                MenuSection::make('Schedule', [
+                    MenuItem::link(__('Calendar'), NovaCalendar::pathToCalendar('fitness-classes')),
                     MenuItem::resource(FitnessClass::class)->name('Classes'),
                     MenuItem::resource(FitnessClassSession::class)->name('Sessions'),
                     MenuItem::resource(FitnessClassRegistration::class)->name('Registrations'),
@@ -94,7 +96,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            new NovaCalendar('fitness-classes')
+        ];
     }
 
     /**
