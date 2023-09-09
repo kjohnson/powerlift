@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use DateTime;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * @method static upcoming()
+ */
 class FitnessClassSession extends Model
 {
     use HasFactory;
@@ -16,8 +21,8 @@ class FitnessClassSession extends Model
     ];
 
     protected $casts = [
-        'start_time' => 'datetime:Y-m-d H:i',
-        'end_time' => 'datetime:Y-m-d H:i',
+        'start_time' => 'datetime',
+        'end_time' => 'datetime',
     ];
 
     public function fitnessClass()
@@ -28,5 +33,12 @@ class FitnessClassSession extends Model
     public function fitnessClassRegistrations()
     {
         return $this->hasMany(FitnessClassRegistration::class);
+    }
+
+    public function scopeUpcoming(Builder $query): void
+    {
+        // @note Query start_time using a regular `where` (not `whereDate`) to preserve the time part of DateTime.
+        $query->where('start_time', '>=', Carbon::now());
+        $query->where('start_time', '<', Carbon::tomorrow());
     }
 }

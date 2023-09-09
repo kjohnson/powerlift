@@ -72,10 +72,10 @@ class FitnessClassSession extends Resource
             ID::make()->sortable(),
             BelongsTo::make('Class', 'fitnessClass', FitnessClass::class),
             DateTime::make('Start Time')
-                ->step(CarbonInterval::minutes(15)),
+                ->step(CarbonInterval::minutes(1)),
             DateTime::make('End Time')
                 ->nullable()
-                ->step(CarbonInterval::minutes(15)),
+                ->step(CarbonInterval::minutes(1)),
             HasMany::make('Registrations', 'fitnessClassRegistrations', FitnessClassRegistration::class),
         ];
     }

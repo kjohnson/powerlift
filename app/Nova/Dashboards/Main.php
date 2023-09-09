@@ -3,6 +3,7 @@
 namespace App\Nova\Dashboards;
 
 use App\Nova\Metrics\DailyCheckins;
+use App\Nova\Metrics\UpcomingSessions;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
@@ -27,6 +28,7 @@ class Main extends Dashboard
     {
         return [
             new DailyCheckins,
+            new UpcomingSessions,
         ];
     }
 }
