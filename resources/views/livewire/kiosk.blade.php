@@ -27,14 +27,14 @@
                 <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                     <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                         <div class="sm:flex sm:items-start">
-                            <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-blue-100 sm:mx-0 sm:h-10 sm:w-10">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
                                 </svg>
                             </div>
                             <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                                 <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">
-                                    {{ $memberName ? "Welcome back, $memberName!" : 'Check In'}}
+                                    {{ $message ?: 'Check In'}}
                                 </h3>
                                 <div class="mt-2">
                                     <p class="text-sm text-gray-500">Scan your RFID chip to check in.</p>
@@ -59,12 +59,19 @@
                 reactToPaste: true, // Compatibility to built-in scanners in paste-mode (as opposed to keyboard-mode)
                 onScan: function(sCode, iQty) { // Alternative to document.addEventListener('scan')
                     console.log("Scanned " + sCode)
-                    Livewire.dispatch('scanned', { code: sCode })
-                    setTimeout(function() {
-                        Livewire.dispatch('reset')
-                    }, 5000)
+                    Livewire.dispatch('scan', { code: sCode })
+                    scheduleReset();
                 },
             });
+
+            let resetTimeout;
+            const scheduleReset = () => {
+                clearTimeout(resetTimeout)
+                resetTimeout = setTimeout(function() {
+                    console.log('RESET');
+                    Livewire.dispatch('reset')
+                }, 5000)
+            }
         })()
     </script>
 </div>

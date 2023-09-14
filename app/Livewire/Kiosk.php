@@ -8,7 +8,7 @@ use Livewire\Component;
 
 class Kiosk extends Component
 {
-    public $memberName;
+    public $message;
 
     public function render()
     {
@@ -16,17 +16,22 @@ class Kiosk extends Component
             ->title('Kiosk');
     }
 
-    #[On('scanned')]
-    public function onScanned($code)
+    #[On('scan')]
+    public function onScan($code)
     {
         $member = Member::where('member_id', $code)->first();
-        $member->checkins()->create();
-        $this->memberName = $member->name;
+
+        if($member) {
+            $member->checkins()->create();
+            $this->message = "Welcome back, $member->name!";
+        } else {
+            $this->message = 'Member not found';
+        }
     }
 
     #[On('reset')]
     public function onReset()
     {
-        $this->memberName = '';
+        $this->message = '';
     }
 }
