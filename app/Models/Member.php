@@ -11,11 +11,11 @@ class Member extends Model
 
     protected $fillable = [
         'name',
+        'member_id',
     ];
 
     protected $hidden = [
         'pin',
-        'member_id',
     ];
 
     public function checkins()
