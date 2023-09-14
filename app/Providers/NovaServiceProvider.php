@@ -29,6 +29,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         parent::boot();
 
+        Nova::withoutNotificationCenter();
+
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::make('Dashboard', [
