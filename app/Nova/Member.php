@@ -2,13 +2,10 @@
 
 namespace App\Nova;
 
-use App\Nova\Metrics\RecentCheckins;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\HasManyThrough;
-use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Powerlift\WebcamPhotoCapture\WebcamPhotoCapture;
 
 class Member extends Resource
 {
@@ -55,6 +52,7 @@ class Member extends Resource
                 ->onlyOnForms()
                 ->rules('max:4'),
             HasMany::make('Checkins', 'checkins', Checkin::class),
+            WebcamPhotoCapture::make('Photo', 'photo')->hideFromIndex(),
         ];
     }
 
