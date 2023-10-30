@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\RecurringClassSessions;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
@@ -102,6 +103,8 @@ class FitnessClass extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            RecurringClassSessions::make(),
+        ];
     }
 }
