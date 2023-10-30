@@ -18,3 +18,4 @@ Route::get('/', function () {
 });
 
 Route::get('/kiosk', \App\Livewire\Kiosk::class);
+Route::get('/fitness-class/{fitnessClass}/sessions/', \App\Livewire\Sessions::class);

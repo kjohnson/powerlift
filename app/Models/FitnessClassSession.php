@@ -41,4 +41,9 @@ class FitnessClassSession extends Model
         $query->where('start_time', '>=', Carbon::now());
         $query->where('start_time', '<', Carbon::tomorrow());
     }
+
+    public function scopeFuture(Builder $query): void
+    {
+        $query->where('start_time', '>=', Carbon::now());
+    }
 }
