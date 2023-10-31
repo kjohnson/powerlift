@@ -3,9 +3,6 @@
 namespace App\Nova\Actions;
 
 use App\Models\FitnessClass;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
@@ -16,13 +13,13 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 
 class RecurringClassSessions extends Action
 {
-    use InteractsWithQueue, Queueable;
-
     public $name = 'Create Schedule';
 
     public $confirmText = 'Create a recurring schedule for this class?';
 
     public $confirmButtonText = 'Create Schedule';
+
+    public $modalSize = '3xl'; // Make room for the AM/PM selector in the date field.
 
     /**
      * Perform the action on the given models.
@@ -35,29 +32,20 @@ class RecurringClassSessions extends Action
     {
         /** @var FitnessClass $class */
         $class = $models->first();
-        $schedule = $fields->schedule;
         $startDate = new Carbon($fields->start_date);
+        $scheduleIncrement = match($fields->schedule) {
+            'day' => static function(&$date) { return $date->addDay(); },
+            'week' => static function(&$date) { return $date->addWeek(); },
+            'month' => static function(&$date) { return $date->addMonth(); },
+        };
 
         $sessions = $class->fitnessClassSessions();
         while($startDate < now()->endOfYear()) {
-
-            $sessions->create([
-                'start_time' => $startDate,
-            ]);
-
-            switch($schedule) {
-                case 'day':
-                    $startDate->addDay();
-                    break;
-                case 'week':
-                    $startDate->addWeek();
-                    break;
-                case 'month':
-                default:
-                    $startDate->addMonth();
-                    break;
-            }
+            $sessions->create(['start_time' => $startDate]);
+            $scheduleIncrement($startDate);
         }
+
+        return Action::message('Recurring sessions created!');
     }
 
     /**
