@@ -1,4 +1,4 @@
-<div class="container w-96 mx-auto mt-6">
+<div class="container w-96 mx-auto p-6">
 
     <h1 class="text-2xl font-semibold">{{$fitnessClass->name}}</h1>
 
@@ -10,7 +10,7 @@
                         <time datetime="2023-01-23T13:23Z" class="leading-6 text-gray-900">{{$session->start_time->toDayDateTimeString()}}</time>
                     </div>
                 </div>
-                <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
+                <div class="shrink-0 sm:flex sm:flex-col sm:items-end">
                     <button type="button" wire:click="selectSession({{ $session->id }})" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">RSVP</button>
                 </div>
             </li>
@@ -79,6 +79,12 @@
         </div>
     </div>
     @endif
+
+    <pre class="hidden">
+        <code>
+            {{'<iframe src="/fitness-class/1/sessions" style="width: 400px; height: 500px; border: none;"></iframe>'}}
+        </code>
+    </pre>
 
 </div>
 
