@@ -14,8 +14,7 @@
             <strong class="text-lg">{{ subscription.firstName }} {{ subscription.lastName }}</strong>
             <small>{{ subscription.id }}</small>
             <span>{{ subscription.name }}</span>
-            <span>{{ subscription.amount }}</span>
-            <span>{{ subscription.currencyCode }}</span>
+            <span>{{ formatCurrency(subscription.amount, subscription.currencyCode) }}</span>
         </Card>
     </div>
 </template>
@@ -31,6 +30,12 @@ export default {
     methods: {
         isActive(subscription) {
             return subscription.status === 'active'
+        },
+        formatCurrency(amount, currencyCode) {
+            return new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: currencyCode,
+            }).format(amount)
         },
     },
 
