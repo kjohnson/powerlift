@@ -4,8 +4,51 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "460376612839f715a7cfdd25b3b85f84",
+    "content-hash": "5609b4aecbbd61dc946a930aa8d724d1",
     "packages": [
+        {
+            "name": "authorizenet/authorizenet",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AuthorizeNet/sdk-php.git",
+                "reference": "a3e76f96f674d16e892f87c58bedb99dada4b067"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AuthorizeNet/sdk-php/zipball/a3e76f96f674d16e892f87c58bedb99dada4b067",
+                "reference": "a3e76f96f674d16e892f87c58bedb99dada4b067",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "description": "Official PHP SDK for Authorize.Net",
+            "homepage": "http://developer.authorize.net",
+            "keywords": [
+                "authorize.net",
+                "authorizenet",
+                "ecommerce",
+                "payment"
+            ],
+            "support": {
+                "issues": "https://github.com/AuthorizeNet/sdk-php/issues",
+                "source": "https://github.com/AuthorizeNet/sdk-php/tree/2.0.2"
+            },
+            "time": "2021-03-31T18:22:14+00:00"
+        },
         {
             "name": "brick/math",
             "version": "0.11.0",
@@ -118,6 +161,58 @@
                 }
             ],
             "time": "2023-09-23T21:17:11+00:00"
+        },
+        {
+            "name": "calebporzio/sushi",
+            "version": "v2.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/calebporzio/sushi.git",
+                "reference": "932d09781bff75c812541d2d269400fd7d730bab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/calebporzio/sushi/zipball/932d09781bff75c812541d2d269400fd7d730bab",
+                "reference": "932d09781bff75c812541d2d269400fd7d730bab",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "illuminate/support": "^5.8 || ^6.0 || ^7.0 || ^8.0 || ^9.0 || ^10.0 || ^11.0",
+                "php": "^7.1.3|^8.0"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^2.9 || ^3.1.4",
+                "orchestra/testbench": "3.8.* || 3.9.* || ^4.0 || ^6.0 || ^7.0 || ^8.0 || ^9.0",
+                "phpunit/phpunit": "^7.5 || ^8.4 || ^9.0 || ^10.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sushi\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb Porzio",
+                    "email": "calebporzio@gmail.com"
+                }
+            ],
+            "description": "Eloquent's missing \"array\" driver.",
+            "support": {
+                "source": "https://github.com/calebporzio/sushi/tree/v2.4.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/calebporzio",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-10-17T14:42:34+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -1446,16 +1541,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v10.29.0",
+            "version": "v10.30.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "2d002849a16ad131110a50cbea4d64dbb78515a3"
+                "reference": "3dd85d9dbea82b937f8eaf344b50d613c5d1127a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/2d002849a16ad131110a50cbea4d64dbb78515a3",
-                "reference": "2d002849a16ad131110a50cbea4d64dbb78515a3",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3dd85d9dbea82b937f8eaf344b50d613c5d1127a",
+                "reference": "3dd85d9dbea82b937f8eaf344b50d613c5d1127a",
                 "shasum": ""
             },
             "require": {
@@ -1644,21 +1739,21 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2023-10-24T13:48:53+00:00"
+            "time": "2023-10-31T13:19:45+00:00"
         },
         {
             "name": "laravel/nova",
-            "version": "4.28.1",
+            "version": "4.29.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:laravel/nova.git",
-                "reference": "91627a24be1f619d863b7dcb409a2305137edec7"
+                "reference": "c01c7ad172189dd7a79f36f46937248f4a863c43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-91627a24be1f619d863b7dcb409a2305137edec7-zip-c06fbe.zip",
-                "reference": "91627a24be1f619d863b7dcb409a2305137edec7",
-                "shasum": "eccdd060bc6faecc818fd7673d1ddd9728658973"
+                "url": "https://nova.laravel.com/dist/laravel/nova/laravel-nova-c01c7ad172189dd7a79f36f46937248f4a863c43-zip-7a780b.zip",
+                "reference": "c01c7ad172189dd7a79f36f46937248f4a863c43",
+                "shasum": "80b81162b2713805060ed8b09b96b371ba9ba87a"
             },
             "require": {
                 "brick/money": "^0.5.0|^0.6.0|^0.7.0|^0.8.0",
@@ -1768,22 +1863,22 @@
                 "laravel"
             ],
             "support": {
-                "source": "https://github.com/laravel/nova/tree/v4.28.1"
+                "source": "https://github.com/laravel/nova/tree/v4.29.0"
             },
-            "time": "2023-10-30T18:31:36+00:00"
+            "time": "2023-10-31T17:12:52+00:00"
         },
         {
             "name": "laravel/prompts",
-            "version": "v0.1.12",
+            "version": "v0.1.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/prompts.git",
-                "reference": "b35f249028c22016e45e48626e19e5d42fd827ff"
+                "reference": "e1379d8ead15edd6cc4369c22274345982edc95a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/prompts/zipball/b35f249028c22016e45e48626e19e5d42fd827ff",
-                "reference": "b35f249028c22016e45e48626e19e5d42fd827ff",
+                "url": "https://api.github.com/repos/laravel/prompts/zipball/e1379d8ead15edd6cc4369c22274345982edc95a",
+                "reference": "e1379d8ead15edd6cc4369c22274345982edc95a",
                 "shasum": ""
             },
             "require": {
@@ -1825,9 +1920,9 @@
             ],
             "support": {
                 "issues": "https://github.com/laravel/prompts/issues",
-                "source": "https://github.com/laravel/prompts/tree/v0.1.12"
+                "source": "https://github.com/laravel/prompts/tree/v0.1.13"
             },
-            "time": "2023-10-18T14:18:57+00:00"
+            "time": "2023-10-27T13:53:59+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -3220,8 +3315,44 @@
             "time": "2023-02-25T19:38:58+00:00"
         },
         {
+            "name": "powerlift/arb-subscriptions",
+            "version": "dev-feature/authorize-net-arb",
+            "dist": {
+                "type": "path",
+                "url": "./nova-components/ArbSubscriptions",
+                "reference": "e3ebb787770d89406a9fc68d9de1281528681261"
+            },
+            "require": {
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Powerlift\\ArbSubscriptions\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Powerlift\\ArbSubscriptions\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova tool.",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "powerlift/webcam-photo-capture",
-            "version": "dev-feature/recurring-class-sessions",
+            "version": "dev-feature/authorize-net-arb",
             "dist": {
                 "type": "path",
                 "url": "./nova-components/WebcamPhotoCapture",
@@ -9312,7 +9443,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "powerlift/webcam-photo-capture": 20
+        "powerlift/webcam-photo-capture": 20,
+        "powerlift/arb-subscriptions": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

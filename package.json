@@ -3,7 +3,13 @@
     "type": "module",
     "scripts": {
         "dev": "vite",
-        "build": "vite build"
+        "build": "vite build",
+        "build-customer-auth-net-arb-details": "cd nova-components/CustomerAuthNetArbDetails && npm run dev",
+        "build-customer-auth-net-arb-details-prod": "cd nova-components/CustomerAuthNetArbDetails && npm run prod",
+        "build-arb-status": "cd nova-components/ArbStatus && npm run dev",
+        "build-arb-status-prod": "cd nova-components/ArbStatus && npm run prod",
+        "build-arb-subscriptions": "cd nova-components/ArbSubscriptions && npm run dev",
+        "build-arb-subscriptions-prod": "cd nova-components/ArbSubscriptions && npm run prod"
     },
     "devDependencies": {
         "axios": "^1.1.2",

@@ -16,6 +16,7 @@ use Laravel\Nova\Menu\MenuItem;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Powerlift\ArbSubscriptions\ArbSubscriptions;
 use Wdelfuego\NovaCalendar\NovaCalendar;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -47,6 +48,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Checkin::class),
                 ])->icon('identification')->collapsable(),
                 MenuSection::resource(User::class)->icon('user'),
+                (new ArbSubscriptions)->menu($request),
             ];
         });
 
@@ -109,7 +111,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            new NovaCalendar('fitness-classes')
+            new NovaCalendar('fitness-classes'),
+            new ArbSubscriptions(),
         ];
     }
 
