@@ -12,6 +12,7 @@ class Member extends Model
     protected $fillable = [
         'name',
         'member_id',
+        'email',
     ];
 
     protected $hidden = [

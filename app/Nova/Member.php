@@ -2,6 +2,7 @@
 
 namespace App\Nova;
 
+use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -45,6 +46,7 @@ class Member extends Resource
             Text::make(__('Name'), 'name')
                 ->sortable()
                 ->rules('required', 'max:255'),
+            Email::make('email'),
             Text::make(__('Membership ID'), 'member_id')
                 ->sortable()
                 ->rules('required'),
