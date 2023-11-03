@@ -8,6 +8,9 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Powerlift\WebcamPhotoCapture\WebcamPhotoCapture;
 
+use net\authorize\api\contract\v1 as AnetAPI;
+use net\authorize\api\controller as AnetController;
+
 class Member extends Resource
 {
     /**
@@ -55,6 +58,31 @@ class Member extends Resource
                 ->rules('max:4'),
             HasMany::make('Checkins', 'checkins', Checkin::class),
             WebcamPhotoCapture::make('Photo', 'photo')->hideFromIndex(),
+            Text::make('Subscription', function() {
+
+                $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+                $merchantAuthentication->setName('42SdZ9B5sgT');
+                $merchantAuthentication->setTransactionKey('44H3Uf98772BpwxX');
+
+                $request = new AnetAPI\GetCustomerProfileRequest();
+                $request->setMerchantAuthentication($merchantAuthentication);
+                $request->setEmail($this->email);
+                $controller = new AnetController\GetCustomerProfileController($request);
+                $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+
+                return $response->getSubscriptionIds() ? json_encode(array_map(function($subscriptionId) use ($merchantAuthentication) {
+                    $request = new AnetAPI\ARBGetSubscriptionRequest();
+                    $request->setMerchantAuthentication($merchantAuthentication);
+                    $request->setRefId('ref' . time());
+                    $request->setSubscriptionId($subscriptionId);
+                    $request->setIncludeTransactions(true);
+
+                    $controller = new AnetController\ARBGetSubscriptionController($request);
+                    $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+                    $subscription = $response->getSubscription();
+                    return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
+                }, array_values($response->getSubscriptionIds()))) : 'No subscription';
+            })->onlyOnDetail(),
         ];
     }
 
