@@ -109,6 +109,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 
 var _hoisted_1 = ["src"];
+var _hoisted_2 = {
+  key: 1
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_PanelItem = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("PanelItem");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_PanelItem, {
@@ -116,9 +119,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     field: $props.field
   }, {
     value: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$props.field.value ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("img", {
+        key: 0,
         src: $props.field.value
-      }, null, 8 /* PROPS */, _hoisted_1)])];
+      }, null, 8 /* PROPS */, _hoisted_1)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_2, "(No Photo Available)"))])];
     }),
     _: 1 /* STABLE */
   }, 8 /* PROPS */, ["index", "field"]);
@@ -584,8 +588,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/isNil */ "../../vendor/laravel/nova/node_modules/lodash/isNil.js");
 /* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _propTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./propTypes */ "../../vendor/laravel/nova/resources/js/mixins/propTypes.js");
-
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -607,7 +609,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     /**
-     * Get field attribue value event name.
+     * Get field attribute value event name.
      */
     getFieldAttributeValueEventName: function getFieldAttributeValueEventName(attribute) {
       return this.hasFormUniqueId === true ? "".concat(this.formUniqueId, "-").concat(attribute, "-value") : "".concat(attribute, "-value");
@@ -662,10 +664,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var lodash_get__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/get */ "../../vendor/laravel/nova/node_modules/lodash/get.js");
 /* harmony import */ var lodash_get__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_get__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lodash/isNil */ "../../vendor/laravel/nova/node_modules/lodash/isNil.js");
-/* harmony import */ var lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(lodash_isNil__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _propTypes__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./propTypes */ "../../vendor/laravel/nova/resources/js/mixins/propTypes.js");
-/* harmony import */ var _FormEvents__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FormEvents */ "../../vendor/laravel/nova/resources/js/mixins/FormEvents.js");
+/* harmony import */ var _propTypes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./propTypes */ "../../vendor/laravel/nova/resources/js/mixins/propTypes.js");
+/* harmony import */ var _FormEvents__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FormEvents */ "../../vendor/laravel/nova/resources/js/mixins/FormEvents.js");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -675,10 +675,10 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  "extends": _FormEvents__WEBPACK_IMPORTED_MODULE_3__["default"],
-  props: _objectSpread({}, (0,_propTypes__WEBPACK_IMPORTED_MODULE_2__.mapProps)(['nested', 'shownViaNewRelationModal', 'field', 'viaResource', 'viaResourceId', 'viaRelationship', 'resourceName', 'resourceId', 'showHelpText', 'mode'])),
+  "extends": _FormEvents__WEBPACK_IMPORTED_MODULE_2__["default"],
+  props: _objectSpread({}, (0,_propTypes__WEBPACK_IMPORTED_MODULE_1__.mapProps)(['nested', 'shownViaNewRelationModal', 'field', 'viaResource', 'viaResourceId', 'viaRelationship', 'resourceName', 'resourceId', 'showHelpText', 'mode'])),
+  emits: ['field-changed'],
   data: function data() {
     return {
       value: this.fieldDefaultValue()
@@ -732,6 +732,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
       this.value = event.target.value;
       if (this.field) {
         this.emitFieldValueChange(this.fieldAttribute, this.value);
+        this.$emit('field-changed');
       }
     },
     /**
@@ -1485,8 +1486,7 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
         proceed();
         return;
       }
-      var answer = window.confirm(this.__('Do you really want to leave? You have unsaved changes.'));
-      if (answer) {
+      if (window.confirm(this.__('Do you really want to leave? You have unsaved changes.'))) {
         this.allowLeavingModal();
         proceed();
         return;

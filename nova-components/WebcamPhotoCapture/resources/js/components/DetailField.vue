@@ -2,7 +2,8 @@
     <PanelItem :index="index" :field="field">
         <template #value>
             <div>
-                <img :src="field.value" />
+                <img v-if="field.value" :src="field.value" />
+                <span v-else>(No Photo Available)</span>
             </div>
         </template>
     </PanelItem>
@@ -10,6 +11,6 @@
 
 <script>
 export default {
-  props: ['index', 'resource', 'resourceName', 'resourceId', 'field'],
+    props: ['index', 'resource', 'resourceName', 'resourceId', 'field'],
 }
 </script>
