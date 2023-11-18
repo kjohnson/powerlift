@@ -13,6 +13,8 @@ class Sessions extends Component
 
     public FitnessClassSession|null $selectedSession;
 
+    public $registrationName;
+
     public function mount(FitnessClass $fitnessClass)
     {
         $this->fitnessClass = $fitnessClass;
@@ -32,5 +34,12 @@ class Sessions extends Component
     public function resetSelectedSession()
     {
         unset($this->selectedSession);
+    }
+
+    public function submitRSVP()
+    {
+        $this->selectedSession->fitnessClassRegistrations()->create([
+            'reference' => $this->registrationName,
+        ]);
     }
 }
