@@ -7,6 +7,7 @@ use App\Nova\FitnessClass;
 use App\Nova\FitnessClassRegistration;
 use App\Nova\FitnessClassSession;
 use App\Nova\Member;
+use App\Nova\Transaction;
 use App\Nova\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
@@ -49,6 +50,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 ])->icon('identification')->collapsable(),
                 MenuSection::resource(User::class)->icon('user'),
                 (new ArbSubscriptions)->menu($request),
+                MenuSection::make('Accounting', [
+                    MenuItem::resource(Transaction::class),
+                ])->icon('cash')->collapsable(),
             ];
         });
 
