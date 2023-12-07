@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('/kiosk', \App\Livewire\Kiosk::class);
+Route::get('/registration', \App\Livewire\Registration::class);
 Route::get('/fitness-class/{fitnessClass}/sessions/', \App\Livewire\Sessions::class);
 
 use net\authorize\api\contract\v1 as AnetAPI;
