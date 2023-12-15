@@ -7,6 +7,7 @@ use App\Nova\FitnessClass;
 use App\Nova\FitnessClassRegistration;
 use App\Nova\FitnessClassSession;
 use App\Nova\Member;
+use App\Nova\MemberLead;
 use App\Nova\Transaction;
 use App\Nova\User;
 use Illuminate\Http\Request;
@@ -53,6 +54,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Accounting', [
                     MenuItem::resource(Transaction::class),
                 ])->icon('cash')->collapsable(),
+                MenuSection::make('Marketing', [
+                    MenuItem::resource(MemberLead::class),
+                ])->icon('speakerphone')->collapsable(),
             ];
         });
 
