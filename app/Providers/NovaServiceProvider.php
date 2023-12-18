@@ -7,6 +7,7 @@ use App\Nova\FitnessClass;
 use App\Nova\FitnessClassRegistration;
 use App\Nova\FitnessClassSession;
 use App\Nova\Member;
+use App\Nova\MembershipPlan;
 use App\Nova\Transaction;
 use App\Nova\User;
 use Illuminate\Http\Request;
@@ -45,6 +46,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(FitnessClassRegistration::class)->name('Registrations'),
                 ])->icon('calendar')->collapsable(),
                 MenuSection::make('Membership', [
+                    MenuItem::resource(MembershipPlan::class)->name('Plans'),
                     MenuItem::resource(Member::class),
                     MenuItem::resource(Checkin::class),
                 ])->icon('identification')->collapsable(),
