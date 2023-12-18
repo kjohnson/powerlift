@@ -50,9 +50,7 @@ class Member extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
             Email::make('email'),
-            Text::make(__('Membership ID'), 'member_id')
-                ->sortable()
-                ->rules('required'),
+            Text::make(__('Membership ID'), 'member_id'),
             Text::make(__('PIN'), 'pin')
                 ->onlyOnForms()
                 ->rules('max:4'),

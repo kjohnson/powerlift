@@ -47,6 +47,8 @@ class MemberLead extends Resource
                 ->rules('required', 'max:255'),
             Email::make(__('Email'), 'email'),
             Text::make(__('Phone'), 'phone'),
+            Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id'),
+            Text::make(__('Payment Profile ID'), 'authnet_customer_payment_profile_id'),
         ];
     }
 
