@@ -49,7 +49,7 @@ class FitnessClassSession extends Resource
      */
     public function title()
     {
-        return sprintf('%s (%s)',$this->fitnessClass->name, $this->start_time->format('F d Y H:i'));
+        return sprintf('%s (%s)',$this->fitnessClass?->name, $this->start_time->format('F d Y H:i'));
     }
 
 
