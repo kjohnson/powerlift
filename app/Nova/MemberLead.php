@@ -2,8 +2,11 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\ConvertLeadToMembership;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Email;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -49,6 +52,7 @@ class MemberLead extends Resource
             Text::make(__('Phone'), 'phone'),
             Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id'),
             Text::make(__('Payment Profile ID'), 'authnet_customer_payment_profile_id'),
+            BelongsTo::make(__('Member'), 'member', Member::class)->nullable(),
         ];
     }
 
@@ -93,6 +97,8 @@ class MemberLead extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            new ConvertLeadToMembership,
+        ];
     }
 }

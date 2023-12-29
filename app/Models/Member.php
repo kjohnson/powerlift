@@ -13,6 +13,9 @@ class Member extends Model
         'name',
         'member_id',
         'email',
+        'authnet_subscription_id',
+        'authnet_customer_profile_id',
+        'authnet_customer_payment_profile_id',
     ];
 
     protected $hidden = [
@@ -22,5 +25,19 @@ class Member extends Model
     public function checkins()
     {
         return $this->hasMany(Checkin::class);
+    }
+
+    public function captureCustomerProfileId(string $profileId)
+    {
+        $this->update([
+            'authnet_customer_profile_id' => $profileId,
+        ]);
+    }
+
+    public function capturePaymentProfileId(string $paymentProfileId)
+    {
+        $this->update([
+            'authnet_customer_payment_profile_id' => $paymentProfileId,
+        ]);
     }
 }

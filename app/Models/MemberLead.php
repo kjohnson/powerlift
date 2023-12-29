@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class MemberLead extends Model
@@ -34,14 +35,16 @@ class MemberLead extends Model
 
     public function convertToMember()
     {
-        return $this->member()->create([
+        $this->member()->associate(Member::create([
             'name' => $this->name,
             'email' => $this->email,
-        ]);
+        ]));
+        $this->save();
+        return $this->member;
     }
 
-    public function member(): HasOne
+    public function member(): BelongsTo
     {
-        return $this->hasOne(Member::class);
+        return $this->belongsTo(Member::class);
     }
 }
