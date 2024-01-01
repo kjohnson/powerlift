@@ -9,7 +9,9 @@
         "build-arb-status": "cd nova-components/ArbStatus && npm run dev",
         "build-arb-status-prod": "cd nova-components/ArbStatus && npm run prod",
         "build-arb-subscriptions": "cd nova-components/ArbSubscriptions && npm run dev",
-        "build-arb-subscriptions-prod": "cd nova-components/ArbSubscriptions && npm run prod"
+        "build-arb-subscriptions-prod": "cd nova-components/ArbSubscriptions && npm run prod",
+        "build-webcam-photo-capture": "cd nova-components/WebcamPhotoCapture && npm run dev",
+        "build-webcam-photo-capture-prod": "cd nova-components/WebcamPhotoCapture && npm run prod"
     },
     "devDependencies": {
         "axios": "^1.1.2",
