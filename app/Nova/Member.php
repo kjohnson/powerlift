@@ -87,6 +87,9 @@ class Member extends Resource
                 }, array_values($response->getSubscriptionIds()))) : 'No subscription';
             })->onlyOnDetail(),
             Boolean::make('Door Access', function() {
+
+                if(!$this->email) return false;
+
                 $members = Http::withHeaders([
                     'Authorization' => 'KISI-LOGIN ' . env('KISI_API_KEY'),
                     'Content-Type' => 'application/json',
