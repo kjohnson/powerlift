@@ -4,6 +4,9 @@ namespace App\Nova;
 
 use App\Nova\Actions\CreateAuthNetPaymentProfile;
 use App\Nova\Actions\CreateAuthNetSubscription;
+use App\Nova\Actions\ToggleKisiDoorAccess;
+use Illuminate\Support\Facades\Http;
+use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
@@ -99,6 +102,21 @@ class Member extends Resource
                     return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
                 }, array_values($response->getSubscriptionIds()))) : 'No subscription';
             })->onlyOnDetail(),
+            Boolean::make('Door Access', function() {
+
+                if(!$this->email) return false;
+
+                $members = Http::withHeaders([
+                    'Authorization' => 'KISI-LOGIN ' . env('KISI_API_KEY'),
+                    'Content-Type' => 'application/json',
+                    'Accept' => 'application/json',
+                ])->get('https://api.kisi.io/members', [
+                    'query' => $this->email,
+                    'limit' => 1,
+                ])->json();
+
+                return $members[0]['access_enabled'] ?? false;
+            })->onlyOnDetail()
         ];
     }
 
@@ -158,6 +176,11 @@ class Member extends Resource
         return array_filter([
             $createSubscription,
             $createPaymentProfile,
+            ToggleKisiDoorAccess::make()
+                ->confirmText('Are you sure you want to toggle door access for this member?')
+                ->confirmButtonText('Confirm')
+                ->cancelButtonText('Cancel')
+                ->sole(),
         ]);
     }
 }

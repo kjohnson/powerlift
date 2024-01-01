@@ -23,4 +23,13 @@ class FitnessClassCalendarDataProvider extends AbstractCalendarDataProvider
         }
         return $event;
     }
+
+    public function eventStyles() : array
+    {
+        return [
+            'default' => [
+                'background-color' => config('nova.brand.colors.500'),
+            ],
+        ];
+    }
 }
