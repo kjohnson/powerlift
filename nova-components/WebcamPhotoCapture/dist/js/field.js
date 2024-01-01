@@ -48,6 +48,11 @@ __webpack_require__.r(__webpack_exports__);
       _this.mediaStream = mediaStream;
     });
   },
+  unmounted: function unmounted() {
+    this.mediaStream.getTracks().forEach(function (track) {
+      return track.stop();
+    });
+  },
   methods: {
     /*
      * Set the initial, internal value for the field.
@@ -175,13 +180,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         type: "button",
         onClick: _cache[0] || (_cache[0] = function ($event) {
           return _this.value = null;
-        })
+        }),
+        "class": "shrink-0 focus:outline-none ring-primary-200 dark:ring-gray-600 focus:ring-2 rounded border-2 border-gray-200 dark:border-gray-500 hover:border-primary-500 active:border-primary-400 dark:hover:border-gray-400 dark:active:border-gray-300 bg-white dark:bg-transparent text-primary-500 dark:text-gray-400 px-3 h-9 inline-flex items-center font-bold shrink-0"
       }, "Reset")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !_this.value ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
         key: 1,
         type: "button",
         onClick: _cache[1] || (_cache[1] = function () {
           return $options.captureImage && $options.captureImage.apply($options, arguments);
-        })
+        }),
+        "class": "shrink-0 h-9 px-4 focus:outline-none ring-primary-200 dark:ring-gray-600 focus:ring text-white dark:text-gray-800 inline-flex items-center font-bold shadow rounded focus:outline-none ring-primary-200 dark:ring-gray-600 focus:ring bg-primary-500 hover:bg-primary-400 active:bg-primary-600 text-white dark:text-gray-800 inline-flex items-center font-bold px-4 h-9 text-sm shrink-0 h-9 px-4 focus:outline-none ring-primary-200 dark:ring-gray-600 focus:ring text-white dark:text-gray-800 inline-flex items-center font-bold"
       }, "Capture")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     _: 1 /* STABLE */
