@@ -4,28 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Member extends Model
+class MemberLead extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'member_id',
         'email',
-        'authnet_subscription_id',
+        'phone',
         'authnet_customer_profile_id',
         'authnet_customer_payment_profile_id',
     ];
-
-    protected $hidden = [
-        'pin',
-    ];
-
-    public function checkins()
-    {
-        return $this->hasMany(Checkin::class);
-    }
 
     public function captureCustomerProfileId(string $profileId)
     {
@@ -39,5 +31,20 @@ class Member extends Model
         $this->update([
             'authnet_customer_payment_profile_id' => $paymentProfileId,
         ]);
+    }
+
+    public function convertToMember()
+    {
+        $this->member()->associate(Member::create([
+            'name' => $this->name,
+            'email' => $this->email,
+        ]));
+        $this->save();
+        return $this->member;
+    }
+
+    public function member(): BelongsTo
+    {
+        return $this->belongsTo(Member::class);
     }
 }

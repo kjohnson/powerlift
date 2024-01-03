@@ -2,6 +2,8 @@
 
 namespace App\Nova;
 
+use App\Nova\Actions\CreateAuthNetPaymentProfile;
+use App\Nova\Actions\CreateAuthNetSubscription;
 use App\Nova\Actions\ToggleKisiDoorAccess;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Fields\Boolean;
@@ -53,18 +55,33 @@ class Member extends Resource
                 ->sortable()
                 ->rules('required', 'max:255'),
             Email::make('email'),
-            Text::make(__('Membership ID'), 'member_id')
-                ->sortable(),
+            Text::make(__('Membership ID'), 'member_id'),
             Text::make(__('PIN'), 'pin')
                 ->onlyOnForms()
                 ->rules('max:4'),
             HasMany::make('Checkins', 'checkins', Checkin::class),
             WebcamPhotoCapture::make('Photo', 'photo')->hideFromIndex(),
+            Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id'),
+            Text::make(__('Payment Profile ID'), 'authnet_customer_payment_profile_id'),
+            Text::make('Subscription', 'authnet_subscription_id')->onlyOnIndex(),
             Text::make('Subscription', function() {
 
                 $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
                 $merchantAuthentication->setName('42SdZ9B5sgT');
                 $merchantAuthentication->setTransactionKey('44H3Uf98772BpwxX');
+
+                if($this->authnet_subscription_id){
+                    $request = new AnetAPI\ARBGetSubscriptionRequest();
+                    $request->setMerchantAuthentication($merchantAuthentication);
+                    $request->setRefId('ref' . time());
+                    $request->setSubscriptionId($this->authnet_subscription_id);
+                    $request->setIncludeTransactions(true);
+
+                    $controller = new AnetController\ARBGetSubscriptionController($request);
+                    $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+                    $subscription = $response->getSubscription();
+                    return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
+                }
 
                 $request = new AnetAPI\GetCustomerProfileRequest();
                 $request->setMerchantAuthentication($merchantAuthentication);
@@ -149,12 +166,21 @@ class Member extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [
+        $createPaymentProfile = CreateAuthNetPaymentProfile::make()
+            ->confirmText('Create a payment profile for this member?')
+            ->confirmButtonText('Create')
+            ->cancelButtonText('Cancel');
+
+        $createSubscription = CreateAuthNetSubscription::make();
+
+        return array_filter([
+            $createSubscription,
+            $createPaymentProfile,
             ToggleKisiDoorAccess::make()
                 ->confirmText('Are you sure you want to toggle door access for this member?')
                 ->confirmButtonText('Confirm')
                 ->cancelButtonText('Cancel')
                 ->sole(),
-        ];
+        ]);
     }
 }
