@@ -15,7 +15,8 @@ class Member extends Model
         'email',
         'authnet_subscription_id',
         'authnet_customer_profile_id',
-        'authnet_customer_payment_profile_id',
+        'authnet_customer_payment_profile_id__credit_card',
+        'authnet_customer_payment_profile_id__bank_account',
     ];
 
     protected $hidden = [
@@ -34,10 +35,17 @@ class Member extends Model
         ]);
     }
 
-    public function capturePaymentProfileId(string $paymentProfileId)
+    public function capturePaymentProfileIdCreditCard(string $paymentProfileId)
     {
         $this->update([
-            'authnet_customer_payment_profile_id' => $paymentProfileId,
+            'authnet_customer_payment_profile_id__credit_card' => $paymentProfileId,
+        ]);
+    }
+
+    public function capturePaymentProfileIdBankAccount(string $paymentProfileId)
+    {
+        $this->update([
+            'authnet_customer_payment_profile_id__bank_account' => $paymentProfileId,
         ]);
     }
 }

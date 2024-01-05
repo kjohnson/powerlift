@@ -2,7 +2,8 @@
 
 namespace App\Nova;
 
-use App\Nova\Actions\CreateAuthNetPaymentProfile;
+use App\Nova\Actions\AddPaymentBankAccount;
+use App\Nova\Actions\AddPaymentCreditCard;
 use App\Nova\Actions\CreateAuthNetSubscription;
 use App\Nova\Actions\ToggleKisiDoorAccess;
 use Illuminate\Support\Facades\Http;
@@ -11,6 +12,7 @@ use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Panel;
 use Powerlift\WebcamPhotoCapture\WebcamPhotoCapture;
 
 use net\authorize\api\contract\v1 as AnetAPI;
@@ -59,10 +61,7 @@ class Member extends Resource
             Text::make(__('PIN'), 'pin')
                 ->onlyOnForms()
                 ->rules('max:4'),
-            HasMany::make('Checkins', 'checkins', Checkin::class),
             WebcamPhotoCapture::make('Photo', 'photo')->hideFromIndex(),
-            Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id'),
-            Text::make(__('Payment Profile ID'), 'authnet_customer_payment_profile_id'),
             Text::make('Subscription', 'authnet_subscription_id')->onlyOnIndex(),
             Text::make('Subscription', function() {
 
@@ -116,7 +115,13 @@ class Member extends Resource
                 ])->json();
 
                 return $members[0]['access_enabled'] ?? false;
-            })->onlyOnDetail()
+            })->onlyOnDetail(),
+            new Panel('Payment Information', [
+                Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id'),
+                Text::make(__('Credit Card Profile ID'), 'authnet_customer_payment_profile_id__credit_card'),
+                Text::make(__('Bank Account Profile ID'), 'authnet_customer_payment_profile_id__bank_account'),
+            ]),
+            HasMany::make('Checkins', 'checkins', Checkin::class),
         ];
     }
 
@@ -166,21 +171,27 @@ class Member extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        $createPaymentProfile = CreateAuthNetPaymentProfile::make()
-            ->confirmText('Create a payment profile for this member?')
-            ->confirmButtonText('Create')
-            ->cancelButtonText('Cancel');
-
-        $createSubscription = CreateAuthNetSubscription::make();
-
-        return array_filter([
-            $createSubscription,
-            $createPaymentProfile,
+        $actions = [
             ToggleKisiDoorAccess::make()
                 ->confirmText('Are you sure you want to toggle door access for this member?')
                 ->confirmButtonText('Confirm')
                 ->cancelButtonText('Cancel')
                 ->sole(),
-        ]);
+            AddPaymentCreditCard::make()
+                ->confirmText('Add a credit card for this member?')
+                ->confirmButtonText('Create'),
+            AddPaymentBankAccount::make()
+                ->confirmText('Add a bank account for this member?')
+                ->confirmButtonText('Save'),
+        ];
+
+        if(
+            $this->authnet_customer_profile_id
+            && $this->authnet_customer_payment_profile_id__credit_card || $this->authnet_customer_payment_profile_id__bank_account
+        ) {
+            $actions[] = CreateAuthNetSubscription::make();
+        }
+
+        return $actions;
     }
 }

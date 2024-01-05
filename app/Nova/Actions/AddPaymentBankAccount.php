@@ -3,20 +3,18 @@
 namespace App\Nova\Actions;
 
 use App\Models\Member;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
 
-class CreateAuthNetPaymentProfile extends Action
+class AddPaymentBankAccount extends Action
 {
-    public $name = 'Create Payment Profile';
+    public $name = 'Add Bank Account';
 
     /**
      * Perform the action on the given models.
@@ -37,11 +35,14 @@ class CreateAuthNetPaymentProfile extends Action
         // Set the transaction's refId
         $refId = 'ref' . time();
 
-        // Credit Card
-        $creditCard = new AnetAPI\CreditCardType();
-        $creditCard->setCardNumber($fields->card_number);
-        $creditCard->setExpirationDate($fields->expiration_date); // 2038-12
-        $creditCard->setCardCode($fields->cvv);
+        // Bank Account
+        $bank_account = new AnetAPI\BankAccountType();
+        $bank_account->setNameOnAccount($fields->account_name);
+        $bank_account->setRoutingNumber($fields->routing_number);
+        $bank_account->setAccountNumber($fields->account_number);
+        $bank_account->setAccountType($fields->account_type);
+        $bank_account->setBankName($fields->bank_name);
+//        $bank_account->setEcheckType('WEB');
 
         // Billing Information (Basic)
         $billTo = new AnetAPI\CustomerAddressType();
@@ -55,12 +56,12 @@ class CreateAuthNetPaymentProfile extends Action
         $paymentProfile->setCustomerType('individual');
         $paymentProfile->setBillTo($billTo);
         $paymentProfile->setPayment(
-            (new AnetAPI\PaymentType())->setCreditCard($creditCard)
+            (new AnetAPI\PaymentType())->setBankAccount($bank_account)
         );
         $paymentProfiles[] = $paymentProfile;
 
         $customerProfile = new AnetAPI\CustomerProfileType();
-        $customerProfile->setDescription("created via PowerList");
+        $customerProfile->setDescription("created via PowerLift");
         $customerProfile->setMerchantCustomerId("M_" . time());
         $customerProfile->setEmail($member->email);
         $customerProfile->setpaymentProfiles($paymentProfiles);
@@ -78,7 +79,7 @@ class CreateAuthNetPaymentProfile extends Action
         if (($response != null) && ($response->getMessages()->getResultCode() == "Ok")) {
 
             $member->captureCustomerProfileId($response->getCustomerProfileId());
-            $member->capturePaymentProfileId($response->getCustomerPaymentProfileIdList()[0]);
+            $member->capturePaymentProfileIdBankAccount($response->getCustomerPaymentProfileIdList()[0]);
 
         } else {
             dd('here', $response->getMessages()->getMessage());
@@ -94,9 +95,15 @@ class CreateAuthNetPaymentProfile extends Action
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make('Credit Card Number', 'card_number'),
-            Text::make('Expiration Date', 'expiration_date'),
-            Text::make('CVV', 'cvv'),
+            Text::make('Name on Account', 'account_name'),
+            Text::make('Routing Number', 'routing_number'),
+            Text::make('Account Number', 'account_number'),
+            Text::make('Bank Name', 'bank_name'),
+            Select::make('Account Type', 'account_type')->options([
+                'checking' => 'Checking',
+                'savings' => 'Savings',
+                'business' => 'Business Checking',
+            ]),
         ];
     }
 }
