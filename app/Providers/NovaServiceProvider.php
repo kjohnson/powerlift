@@ -47,18 +47,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(FitnessClassRegistration::class)->name('Registrations'),
                 ])->icon('calendar')->collapsable(),
                 MenuSection::make('Membership', [
-                    MenuItem::resource(MembershipPlan::class)->name('Plans'),
                     MenuItem::resource(Member::class),
                     MenuItem::resource(Checkin::class),
-                ])->icon('identification')->collapsable(),
-                MenuSection::resource(User::class)->icon('user'),
-                (new ArbSubscriptions)->menu($request),
+                ])->icon('identification'),
                 MenuSection::make('Accounting', [
                     MenuItem::resource(Transaction::class),
-                ])->icon('cash')->collapsable(),
+                ])->icon('cash')->collapsedByDefault(),
                 MenuSection::make('Marketing', [
                     MenuItem::resource(MemberLead::class),
-                ])->icon('speakerphone')->collapsable(),
+                ])->icon('speakerphone')->collapsedByDefault(),
+                MenuSection::make('Settings', [
+                    MenuItem::resource(User::class),
+                    MenuItem::resource(MembershipPlan::class)->name('Memberships'),
+                ])->icon('cog')->collapsedByDefault(),
+//                (new ArbSubscriptions)->menu($request),
             ];
         });
 
