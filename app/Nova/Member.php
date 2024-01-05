@@ -40,7 +40,8 @@ class Member extends Resource
      * @var array
      */
     public static $search = [
-        'name',
+        'first_name',
+        'last_name',
         'member_id',
     ];
 
@@ -53,9 +54,11 @@ class Member extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Text::make(__('Name'), 'name')
+            Text::make(__('First Name'), 'first_name')
                 ->sortable()
-                ->rules('required', 'max:255'),
+                ->rules('required'),
+            Text::make(__('Last Name'), 'last_name')
+                ->sortable(),
             Email::make('email'),
             Text::make(__('Membership ID'), 'member_id'),
             Text::make(__('PIN'), 'pin')

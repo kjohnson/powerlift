@@ -69,7 +69,8 @@ class Registration extends Component
     protected function captureLead()
     {
         $this->memberLead = MemberLead::create([
-            'name' => $this->firstName . ' ' . $this->lastName,
+            'first_name' => $this->firstName,
+            'last_name' => $this->lastName,
             'email' => $this->emailAddress,
             'phone' => $this->phoneNumber,
         ]);

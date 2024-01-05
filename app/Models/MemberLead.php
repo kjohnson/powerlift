@@ -12,7 +12,8 @@ class MemberLead extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'phone',
         'authnet_customer_profile_id',
@@ -36,7 +37,8 @@ class MemberLead extends Model
     public function convertToMember()
     {
         $this->member()->associate(Member::create([
-            'name' => $this->name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'email' => $this->email,
         ]));
         $this->save();

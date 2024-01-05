@@ -23,7 +23,7 @@ class Kiosk extends Component
 
         if($member) {
             $member->checkins()->create();
-            $this->message = "Welcome back, $member->name!";
+            $this->message = "Welcome back, $member->first_name!";
         } else {
             $this->message = 'Member not found';
         }
