@@ -17,7 +17,9 @@ Route::get('/', function () {
     return redirect('/nova');
 });
 
-Route::get('/kiosk', \App\Livewire\Kiosk::class);
+Route::get('/kiosk', \App\Livewire\Kiosk::class)
+    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+
 Route::get('/registration', \App\Livewire\Registration::class);
 Route::get('/fitness-class/{fitnessClass}/sessions/', \App\Livewire\Sessions::class);
 
