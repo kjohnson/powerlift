@@ -37,19 +37,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         Nova::mainMenu(function (Request $request) {
             return [
-                MenuSection::make('Dashboard', [
-                    MenuItem::dashboard(\App\Nova\Dashboards\Main::class)->name('Overview')
-                ])->icon('collection'),
+                MenuSection::dashboard(\App\Nova\Dashboards\Main::class)->icon('collection'),
+                MenuSection::make('Membership', [
+                    MenuItem::resource(Member::class),
+                ])->icon('identification'),
                 MenuSection::make('Schedule', [
                     MenuItem::link(__('Calendar'), NovaCalendar::pathToCalendar('fitness-classes')),
                     MenuItem::resource(FitnessClass::class)->name('Classes'),
-                    MenuItem::resource(FitnessClassSession::class)->name('Sessions'),
-                    MenuItem::resource(FitnessClassRegistration::class)->name('Registrations'),
-                ])->icon('calendar')->collapsable(),
-                MenuSection::make('Membership', [
-                    MenuItem::resource(Member::class),
-                    MenuItem::resource(Checkin::class),
-                ])->icon('identification'),
+                ])->icon('calendar'),
                 MenuSection::make('Accounting', [
                     MenuItem::resource(Transaction::class),
                 ])->icon('cash')->collapsedByDefault(),
