@@ -59,7 +59,7 @@ class Member extends Resource
                 ->rules('required'),
             Text::make(__('Last Name'), 'last_name')
                 ->sortable(),
-            Email::make('email'),
+            Email::make(__('Email'), 'email'),
             Text::make(__('Membership ID'), 'member_id')->onlyOnDetail(),
             Text::make(__('PIN'), 'pin')
                 ->onlyOnForms()
