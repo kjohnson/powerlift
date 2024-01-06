@@ -60,12 +60,12 @@ class Member extends Resource
             Text::make(__('Last Name'), 'last_name')
                 ->sortable(),
             Email::make('email'),
-            Text::make(__('Membership ID'), 'member_id'),
+            Text::make(__('Membership ID'), 'member_id')->onlyOnDetail(),
             Text::make(__('PIN'), 'pin')
                 ->onlyOnForms()
                 ->rules('max:4'),
             WebcamPhotoCapture::make('Photo', 'photo')->hideFromIndex(),
-            Text::make('Subscription', 'authnet_subscription_id')->onlyOnIndex(),
+//            Text::make('Subscription', 'authnet_subscription_id')->onlyOnIndex(),
             Text::make('Subscription', function() {
 
                 $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
@@ -119,12 +119,12 @@ class Member extends Resource
 
                 return $members[0]['access_enabled'] ?? false;
             })->onlyOnDetail(),
-            new Panel('Payment Information', [
-                Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id'),
-                Text::make(__('Credit Card Profile ID'), 'authnet_customer_payment_profile_id__credit_card'),
-                Text::make(__('Bank Account Profile ID'), 'authnet_customer_payment_profile_id__bank_account'),
-            ]),
             HasMany::make('Checkins', 'checkins', Checkin::class),
+            new Panel('Payment Information', [
+                Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id')->onlyOnDetail(),
+                Text::make(__('Credit Card Profile ID'), 'authnet_customer_payment_profile_id__credit_card')->onlyOnDetail(),
+                Text::make(__('Bank Account Profile ID'), 'authnet_customer_payment_profile_id__bank_account')->onlyOnDetail(),
+            ]),
         ];
     }
 

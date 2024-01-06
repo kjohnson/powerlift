@@ -38,9 +38,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::mainMenu(function (Request $request) {
             return [
                 MenuSection::dashboard(\App\Nova\Dashboards\Main::class)->icon('collection'),
-                MenuSection::make('Membership', [
-                    MenuItem::resource(Member::class),
-                ])->icon('identification'),
+                MenuSection::resource(Member::class)->icon('identification'),
                 MenuSection::make('Schedule', [
                     MenuItem::link(__('Calendar'), NovaCalendar::pathToCalendar('fitness-classes')),
                     MenuItem::resource(FitnessClass::class)->name('Classes'),
@@ -62,7 +60,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         Nova::footer(function () {
             return Blade::render('
                 <div class="mt-8 leading-normal text-xs text-gray-500 space-y-1">
-                    <p class="text-center">© {{ date("Y") }} PowerLift by <a class="link-default" href="https://cycleandhammer.com">Cycle & Hammer</a></p>
+                    <p class="text-center">PowerLift by <a class="link-default" href="https://cycleandhammer.com">Cycle & Hammer</a></p>
                     <p class="text-center">Software that does the heavy lifting.</p>
                 </div>
             ');
