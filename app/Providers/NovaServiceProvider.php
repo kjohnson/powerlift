@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Nova\Checkin;
+use App\Nova\KisiUserMembers;
 use App\Nova\FitnessClass;
 use App\Nova\FitnessClassRegistration;
 use App\Nova\FitnessClassSession;
@@ -52,6 +53,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Settings', [
                     MenuItem::resource(User::class),
                     MenuItem::resource(MembershipPlan::class)->name('Memberships'),
+                    MenuItem::resource(KisiUserMembers::class)->name('Door Access'),
                 ])->icon('cog')->collapsedByDefault(),
 //                (new ArbSubscriptions)->menu($request),
             ];

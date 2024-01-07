@@ -103,21 +103,6 @@ class Member extends Resource
                     return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
                 }, array_values($response->getSubscriptionIds()))) : 'No subscription';
             })->onlyOnDetail(),
-            Boolean::make('Door Access', function() {
-
-                if(!$this->email) return false;
-
-                $members = Http::withHeaders([
-                    'Authorization' => 'KISI-LOGIN ' . env('KISI_API_KEY'),
-                    'Content-Type' => 'application/json',
-                    'Accept' => 'application/json',
-                ])->get('https://api.kisi.io/members', [
-                    'query' => $this->email,
-                    'limit' => 1,
-                ])->json();
-
-                return $members[0]['access_enabled'] ?? false;
-            })->onlyOnDetail(),
             HasMany::make('Checkins', 'checkins', Checkin::class),
             new Panel('Payment Information', [
                 Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id')->onlyOnDetail(),
@@ -174,9 +159,6 @@ class Member extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [
-            Kisi\AddUser::make()->sole(),
-            Kisi\ToggleAccess::make()->sole(),
-            Kisi\RemoveUser::make()->sole(),
             AddPaymentCreditCard::make()
                 ->confirmText('Add a credit card for this member?')
                 ->confirmButtonText('Create'),
