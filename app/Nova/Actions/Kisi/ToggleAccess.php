@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Nova\Actions;
+namespace App\Nova\Actions\Kisi;
 
 use App\Models\Member;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
@@ -12,7 +11,7 @@ use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class ToggleKisiDoorAccess extends Action
+class ToggleAccess extends Action
 {
     use InteractsWithQueue, Queueable;
 

@@ -24,6 +24,14 @@ class Member extends Model
         'pin',
     ];
 
+    public function fullName()
+    {
+        return implode(' ', [
+            $this->first_name,
+            $this->last_name,
+        ]);
+    }
+
     public function checkins()
     {
         return $this->hasMany(Checkin::class);

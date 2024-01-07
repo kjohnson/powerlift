@@ -5,7 +5,7 @@ namespace App\Nova;
 use App\Nova\Actions\AddPaymentBankAccount;
 use App\Nova\Actions\AddPaymentCreditCard;
 use App\Nova\Actions\CreateAuthNetSubscription;
-use App\Nova\Actions\ToggleKisiDoorAccess;
+use App\Nova\Actions\Kisi as Kisi;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Email;
@@ -13,10 +13,9 @@ use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
-use Powerlift\WebcamPhotoCapture\WebcamPhotoCapture;
-
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
+use Powerlift\WebcamPhotoCapture\WebcamPhotoCapture;
 
 class Member extends Resource
 {
@@ -175,11 +174,9 @@ class Member extends Resource
     public function actions(NovaRequest $request)
     {
         $actions = [
-            ToggleKisiDoorAccess::make()
-                ->confirmText('Are you sure you want to toggle door access for this member?')
-                ->confirmButtonText('Confirm')
-                ->cancelButtonText('Cancel')
-                ->sole(),
+            Kisi\AddUser::make()->sole(),
+            Kisi\ToggleAccess::make()->sole(),
+            Kisi\RemoveUser::make()->sole(),
             AddPaymentCreditCard::make()
                 ->confirmText('Add a credit card for this member?')
                 ->confirmButtonText('Create'),
