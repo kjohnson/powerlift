@@ -6,10 +6,12 @@ use App\Nova\Actions\AddPaymentBankAccount;
 use App\Nova\Actions\AddPaymentCreditCard;
 use App\Nova\Actions\CreateAuthNetSubscription;
 use App\Nova\Actions\Kisi as Kisi;
+use App\Nova\Actions\SendWaiverSignatureRequest;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
@@ -109,6 +111,13 @@ class Member extends Resource
                 Text::make(__('Credit Card Profile ID'), 'authnet_customer_payment_profile_id__credit_card')->onlyOnDetail(),
                 Text::make(__('Bank Account Profile ID'), 'authnet_customer_payment_profile_id__bank_account')->onlyOnDetail(),
             ]),
+            new Panel('Waiver', [
+                Text::make(__('Waiver Signature'), function() {
+                    return "<div style='background-color: white;'><img src='$this->waiver_signature' /></div>";
+                })
+                    ->onlyOnDetail()
+                    ->asHtml(),
+            ]),
         ];
     }
 
@@ -173,6 +182,8 @@ class Member extends Resource
         ) {
             $actions[] = CreateAuthNetSubscription::make();
         }
+
+        $actions[] = SendWaiverSignatureRequest::make();
 
         return $actions;
     }

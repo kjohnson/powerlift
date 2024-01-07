@@ -17,9 +17,11 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
+        "powerlift/arb-subscriptions": "@dev",
         "powerlift/webcam-photo-capture": "@dev",
-        "wdelfuego/nova-calendar": "^2.1",
-        "powerlift/arb-subscriptions": "@dev"
+        "symfony/http-client": "^6.4",
+        "symfony/mailgun-mailer": "^6.4",
+        "wdelfuego/nova-calendar": "^2.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

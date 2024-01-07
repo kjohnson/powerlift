@@ -18,6 +18,7 @@ class Member extends Model
         'authnet_customer_profile_id',
         'authnet_customer_payment_profile_id__credit_card',
         'authnet_customer_payment_profile_id__bank_account',
+        'waiver_signature',
     ];
 
     protected $hidden = [

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Member;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +23,11 @@ Route::get('/kiosk', \App\Livewire\Kiosk::class)
 
 Route::get('/registration', \App\Livewire\Registration::class);
 Route::get('/fitness-class/{fitnessClass}/sessions/', \App\Livewire\Sessions::class);
+
+Route::get('member/{member}/waiver', \App\Livewire\MemberSignature::class)->name('member.waiver')->middleware('signed');
+Route::get('waiver/success', function() {
+    return 'Success';
+})->name('waiver.success');
 
 use net\authorize\api\contract\v1 as AnetAPI;
 use net\authorize\api\controller as AnetController;
