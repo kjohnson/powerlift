@@ -11,7 +11,7 @@ use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class KisiUserMembers extends Resource
+class KisiUserMembers extends ReadOnlyResource
 {
     /**
      * The model the resource corresponds to.
@@ -34,6 +34,9 @@ class KisiUserMembers extends Resource
      */
     public static $search = [
         'id',
+        'first_name',
+        'last_name',
+        'email',
     ];
 
     /**
@@ -118,18 +121,4 @@ class KisiUserMembers extends Resource
             Kisi\RemoveUser::make()->sole(),
         ];
     }
-
-    /**
-     * READ ONLY RESOURCE
-     */
-    public static function authorizeToCreate(Request $request) {throw new AuthorizationException();}
-    public static function authorizedToCreate(Request $request) {return false;}
-    public function authorizeToUpdate(Request $request) {return false;}
-    public function authorizedToUpdate(Request $request) {return false;}
-    public function authorizeToReplicate(Request $request) {return false;}
-    public function authorizedToReplicate(Request $request) {return false;}
-    public function authorizeToDelete(Request $request) {return false;}
-    public function authorizedToDelete(Request $request) {return false;}
-
-
 }
