@@ -45,7 +45,7 @@ class WaiverSignatureRequest extends Mailable
             with: [
                 'member' => $this->member,
                 'url' => URL::temporarySignedRoute('member.waiver', now()->addHours(24), [
-                    'member' => 7,
+                    'member' => $this->member->id,
                 ])
             ]
         );
