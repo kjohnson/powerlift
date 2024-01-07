@@ -117,6 +117,7 @@ class KisiUserMembers extends ReadOnlyResource
     {
         return [
             Kisi\AddUser::make()->sole(),
+            Kisi\SendAccess::make()->sole(),
             Kisi\ToggleAccess::make()->sole(),
             Kisi\RemoveUser::make()->sole(),
         ];
