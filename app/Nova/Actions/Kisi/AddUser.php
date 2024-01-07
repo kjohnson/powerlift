@@ -35,16 +35,33 @@ class AddUser extends Action
             'Accept' => 'application/json',
         ]);
 
-        $response = $request->post("https://api.kisi.io/members", [
-            'member' => [
-                'name' => $model->fullName(),
-                'email' => $model->email,
+        $response = $request->get('https://api.kisi.io/members', [
+            'query' => $model->email,
+            'limit' => 1,
+        ])->json();
+
+        if(isset($response[0])) {
+            $member = $response[0];
+        } else {
+            $member = $request->post("https://api.kisi.io/members", [
+                'member' => [
+                    'name' => $model->fullName(),
+                    'email' => $model->email,
+                ]
+            ]);
+        }
+
+        $response = $request->post("https://api.kisi.io/role_assignments", [
+            'role_assignment' => [
+                'user_id' => $member['user']['id'],
+                'role_id' => env('KISI_ROLE_ID'),
+                'group_id' => env('KISI_GROUP_ID'),
             ]
         ]);
 
         return $response->successful()
             ? Action::message('User added to Kisi.')
-            : Action::danger('Something went wrong.');
+            : Action::danger('Error: ' . $response['error']);
     }
 
     /**
