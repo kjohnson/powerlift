@@ -2,6 +2,7 @@
 
 namespace App\Livewire;
 
+use App\Models\FitnessClassSession;
 use App\Models\Member;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -9,6 +10,12 @@ use Livewire\Component;
 class Kiosk extends Component
 {
     public $message;
+
+    public $sessions;
+
+    public function mount() {
+        $this->sessions = FitnessClassSession::upcoming()->get();
+    }
 
     public function render()
     {
