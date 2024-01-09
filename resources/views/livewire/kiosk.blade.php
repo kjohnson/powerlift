@@ -1,5 +1,5 @@
 <div>
-    <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="relative z-10 flex flex-col w-screen" aria-labelledby="modal-title" role="dialog" aria-modal="true">
         <!--
           Background backdrop, show/hide based on modal state.
 
@@ -13,7 +13,12 @@
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
 
         <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-            <div class="cursor-none flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+            <div class="cursor-none flex min-h-full items-end p-4 text-center sm:items-center sm:p-0">
+
+                <div class="w-1/3">
+                    <img id="squatAnimation" src="{{ asset('assets/squat1.png') }}" alt="">
+                </div>
+
                 <!--
                   Modal panel, show/hide based on modal state.
 
@@ -61,6 +66,7 @@
                     console.log("Scanned " + sCode)
                     Livewire.dispatch('scan', { code: sCode })
                     scheduleReset();
+                    startSquatAnimation();
                 },
             });
 
@@ -72,6 +78,22 @@
                     Livewire.dispatch('reset')
                 }, 5000)
             }
+
+             window.startSquatAnimation = function() {
+                setTimeout(function() {
+                    document.getElementById('squatAnimation').src = "{{ asset('assets/squat2.png') }}"
+                    setTimeout(function() {
+                        document.getElementById('squatAnimation').src = "{{ asset('assets/squat3.png') }}"
+                        setTimeout(function() {
+                            document.getElementById('squatAnimation').src = "{{ asset('assets/squat4.png') }}"
+                            setTimeout(function() {
+                                document.getElementById('squatAnimation').src = "{{ asset('assets/squat1.png') }}"
+                            }, 500)
+                        }, 500)
+                    }, 500)
+                }, 500)
+            }
+            startSquatAnimation();
         })()
     </script>
 </div>
