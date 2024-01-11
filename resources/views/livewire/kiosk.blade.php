@@ -19,7 +19,7 @@
                     <!--
 BARBELL SQUAT ANIMATION
 -->
-                    <div style="width: 500px;">
+                    <div style="width: 400px;">
                         <img id="squatAnimation" src="{{ asset('assets/squat1.png') }}" alt="">
                     </div>
 
