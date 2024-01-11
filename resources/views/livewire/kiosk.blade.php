@@ -53,7 +53,7 @@ RFID SCANNER NOTICE
                 <!--
                 SCHEDULE
                 -->
-                <div class="w-1/3 px-20 mt-10 self-start">
+                <div class="w-1/3 pr-10 mt-10 self-start">
                     <ul class="flex flex-col gap-6">
                         @foreach($sessions as $session)
                             <li>
