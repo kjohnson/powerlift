@@ -44,9 +44,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::link(__('Calendar'), NovaCalendar::pathToCalendar('fitness-classes')),
                     MenuItem::resource(FitnessClass::class)->name('Classes'),
                 ])->icon('calendar'),
-                MenuSection::make('Accounting', [
-                    MenuItem::resource(Transaction::class),
-                ])->icon('cash')->collapsedByDefault(),
+//                MenuSection::make('Receipt Book', [
+//                    MenuItem::resource(Transaction::class),
+//                ])->icon('cash')->collapsedByDefault(),
                 MenuSection::make('Marketing', [
                     MenuItem::resource(MemberLead::class),
                 ])->icon('speakerphone')->collapsedByDefault(),
