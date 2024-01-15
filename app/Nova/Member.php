@@ -61,7 +61,7 @@ class Member extends Resource
             Text::make(__('Last Name'), 'last_name')
                 ->sortable(),
             Email::make(__('Email'), 'email'),
-            Text::make(__('Membership ID'), 'member_id')->onlyOnDetail(),
+            Text::make(__('Membership ID'), 'member_id')->hideFromIndex(),
             Text::make(__('PIN'), 'pin')
                 ->onlyOnForms()
                 ->rules('max:4'),
