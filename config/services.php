@@ -31,4 +31,12 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'kisi' => [
+        'api_key' => env('KISI_API_KEY'),
+        'org_id' => env('KISI_ORG_ID'),
+        'default_role_id' => env('KISI_ROLE_ID'),
+        'default_group_id' => env('KISI_GROUP_ID'),
+        'default_place_id' => env('KISI_PLACE_ID'),
+    ],
+
 ];

@@ -3,6 +3,9 @@
 namespace App\Nova\Actions\Kisi;
 
 use App\Models\Member;
+use App\Services\Kisi\Exceptions\GroupRoleAssignmentNotCreatedException;
+use App\Services\Kisi\Exceptions\MemberNotFoundException;
+use App\Services\Kisi\Facades\Kisi;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Collection;
@@ -29,39 +32,19 @@ class AddUser extends Action
         /** @var Member $model */
         $model = $models->first();
 
-        $request = Http::withHeaders([
-            'Authorization' => 'KISI-LOGIN ' . env('KISI_API_KEY'),
-            'Content-Type' => 'application/json',
-            'Accept' => 'application/json',
-        ]);
-
-        $response = $request->get('https://api.kisi.io/members', [
-            'query' => $model->email,
-            'limit' => 1,
-        ])->json();
-
-        if(isset($response[0])) {
-            $member = $response[0];
-        } else {
-            $member = $request->post("https://api.kisi.io/members", [
-                'member' => [
-                    'name' => $model->fullName(),
-                    'email' => $model->email,
-                ]
-            ]);
+        try {
+            $member = Kisi::members()->getByEmail($model->email);
+        } catch (MemberNotFoundException $e) {
+            $member = Kisi::members()->create($model->fullName(), $model->email);
         }
 
-        $response = $request->post("https://api.kisi.io/role_assignments", [
-            'role_assignment' => [
-                'user_id' => $member['user']['id'],
-                'role_id' => env('KISI_ROLE_ID'),
-                'group_id' => env('KISI_GROUP_ID'),
-            ]
-        ]);
+        try {
+            Kisi::groupRoleAssignments()->createForMember($member);
+        } catch (GroupRoleAssignmentNotCreatedException $e) {
+            return Action::danger('Error: ' . $e->getMessage());
+        }
 
-        return $response->successful()
-            ? Action::message('User added to Kisi.')
-            : Action::danger('Error: ' . $response['error']);
+        return Action::message('User added to Kisi.');
     }
 
     /**

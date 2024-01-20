@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->singleton(
+            abstract: 'kisi',
+            concrete: fn () => new \App\Services\Kisi\Api(
+                apiKey: strval(config('services.kisi.api_key')),
+            ),
+        );
     }
 }
