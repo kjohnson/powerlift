@@ -54,7 +54,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::make('Settings', [
                     MenuItem::resource(User::class),
                     MenuItem::resource(MembershipPlan::class)->name('Memberships'),
-                    MenuItem::resource(KisiUserMembers::class)->name('Door Access'),
                     MenuItem::link('CSV Import', '/csv-import'),
                 ])->icon('cog')->collapsedByDefault(),
 //                (new ArbSubscriptions)->menu($request),
