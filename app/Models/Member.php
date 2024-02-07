@@ -19,6 +19,17 @@ class Member extends Model
         'authnet_customer_payment_profile_id__credit_card',
         'authnet_customer_payment_profile_id__bank_account',
         'waiver_signature',
+        'address',
+        'city',
+        'state',
+        'zip',
+        'country',
+        'phone',
+        'member_since',
+    ];
+
+    protected $casts = [
+        'member_since' => 'date',
     ];
 
     protected $hidden = [

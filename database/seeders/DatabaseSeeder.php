@@ -20,14 +20,5 @@ class DatabaseSeeder extends Seeder
              'email' => 'kyle.johnson@hey.com',
              'password' => Hash::make('password'),
          ]);
-
-         \App\Models\Member::create([
-             'name' => 'Cory Johnson',
-             'member_id' => '1234567890',
-         ]);
-
-         \App\Models\FitnessClass::create([
-             'name' => 'Yoga with Adrian',
-         ]);
     }
 }

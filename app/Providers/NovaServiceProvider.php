@@ -21,6 +21,7 @@ use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Powerlift\ArbSubscriptions\ArbSubscriptions;
+use SimonHamp\LaravelNovaCsvImport\LaravelNovaCsvImport;
 use Wdelfuego\NovaCalendar\NovaCalendar;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -54,6 +55,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(User::class),
                     MenuItem::resource(MembershipPlan::class)->name('Memberships'),
                     MenuItem::resource(KisiUserMembers::class)->name('Door Access'),
+                    MenuItem::link('CSV Import', '/csv-import'),
                 ])->icon('cog')->collapsedByDefault(),
 //                (new ArbSubscriptions)->menu($request),
             ];
@@ -118,6 +120,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
             new NovaCalendar('fitness-classes'),
             new ArbSubscriptions(),
+            new LaravelNovaCsvImport(),
         ];
     }
 

@@ -19,6 +19,7 @@
         "livewire/livewire": "^3.0",
         "powerlift/arb-subscriptions": "@dev",
         "powerlift/webcam-photo-capture": "@dev",
+        "simonhamp/laravel-nova-csv-import": "^0.7.2",
         "symfony/http-client": "^6.4",
         "symfony/mailgun-mailer": "^6.4",
         "wdelfuego/nova-calendar": "^2.1"

@@ -9,6 +9,7 @@ use App\Nova\Actions\Kisi as Kisi;
 use App\Nova\Actions\SendWaiverSignatureRequest;
 use Illuminate\Support\Facades\Http;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Image;
@@ -55,56 +56,68 @@ class Member extends Resource
     public function fields(NovaRequest $request)
     {
         return [
+            Date::make(__('Member Since'), 'member_since')
+                ->sortable(),
             Text::make(__('First Name'), 'first_name')
                 ->sortable()
                 ->rules('required'),
             Text::make(__('Last Name'), 'last_name')
                 ->sortable(),
             Email::make(__('Email'), 'email'),
+            Text::make(__('Phone'), 'phone'),
             Text::make(__('Membership ID'), 'member_id')->hideFromIndex(),
             Text::make(__('PIN'), 'pin')
-                ->onlyOnForms()
+                ->hideFromIndex()
                 ->rules('max:4'),
             WebcamPhotoCapture::make('Photo', 'photo')->hideFromIndex(),
 //            Text::make('Subscription', 'authnet_subscription_id')->onlyOnIndex(),
-            Text::make('Subscription', function() {
+            new Panel('Subscription', [
+                Text::make('Subscription', function() {
 
-                $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-                $merchantAuthentication->setName('42SdZ9B5sgT');
-                $merchantAuthentication->setTransactionKey('44H3Uf98772BpwxX');
+                    $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+                    $merchantAuthentication->setName('42SdZ9B5sgT');
+                    $merchantAuthentication->setTransactionKey('44H3Uf98772BpwxX');
 
-                if($this->authnet_subscription_id){
-                    $request = new AnetAPI\ARBGetSubscriptionRequest();
+                    if($this->authnet_subscription_id){
+                        $request = new AnetAPI\ARBGetSubscriptionRequest();
+                        $request->setMerchantAuthentication($merchantAuthentication);
+                        $request->setRefId('ref' . time());
+                        $request->setSubscriptionId($this->authnet_subscription_id);
+                        $request->setIncludeTransactions(true);
+
+                        $controller = new AnetController\ARBGetSubscriptionController($request);
+                        $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+                        $subscription = $response->getSubscription();
+                        return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
+                    }
+
+                    $request = new AnetAPI\GetCustomerProfileRequest();
                     $request->setMerchantAuthentication($merchantAuthentication);
-                    $request->setRefId('ref' . time());
-                    $request->setSubscriptionId($this->authnet_subscription_id);
-                    $request->setIncludeTransactions(true);
-
-                    $controller = new AnetController\ARBGetSubscriptionController($request);
+                    $request->setEmail($this->email);
+                    $controller = new AnetController\GetCustomerProfileController($request);
                     $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
-                    $subscription = $response->getSubscription();
-                    return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
-                }
 
-                $request = new AnetAPI\GetCustomerProfileRequest();
-                $request->setMerchantAuthentication($merchantAuthentication);
-                $request->setEmail($this->email);
-                $controller = new AnetController\GetCustomerProfileController($request);
-                $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+                    return $response->getSubscriptionIds() ? json_encode(array_map(function($subscriptionId) use ($merchantAuthentication) {
+                        $request = new AnetAPI\ARBGetSubscriptionRequest();
+                        $request->setMerchantAuthentication($merchantAuthentication);
+                        $request->setRefId('ref' . time());
+                        $request->setSubscriptionId($subscriptionId);
+                        $request->setIncludeTransactions(true);
 
-                return $response->getSubscriptionIds() ? json_encode(array_map(function($subscriptionId) use ($merchantAuthentication) {
-                    $request = new AnetAPI\ARBGetSubscriptionRequest();
-                    $request->setMerchantAuthentication($merchantAuthentication);
-                    $request->setRefId('ref' . time());
-                    $request->setSubscriptionId($subscriptionId);
-                    $request->setIncludeTransactions(true);
-
-                    $controller = new AnetController\ARBGetSubscriptionController($request);
-                    $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
-                    $subscription = $response->getSubscription();
-                    return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
-                }, array_values($response->getSubscriptionIds()))) : 'No subscription';
-            })->onlyOnDetail(),
+                        $controller = new AnetController\ARBGetSubscriptionController($request);
+                        $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+                        $subscription = $response->getSubscription();
+                        return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
+                    }, array_values($response->getSubscriptionIds()))) : 'No subscription';
+                })->onlyOnDetail(),
+            ]),
+            new Panel('Address', [
+                Text::make(__('Address'), 'address')->hideFromIndex(),
+                Text::make(__('City'), 'city')->hideFromIndex(),
+                Text::make(__('State'), 'state')->hideFromIndex(),
+                Text::make(__('Zip'), 'zip')->hideFromIndex(),
+                Text::make(__('Country'), 'country')->hideFromIndex(),
+            ]),
             HasMany::make('Checkins', 'checkins', Checkin::class),
             new Panel('Payment Information', [
                 Text::make(__('Customer Profile ID'), 'authnet_customer_profile_id')->onlyOnDetail(),
