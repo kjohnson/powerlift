@@ -26,6 +26,7 @@ class Member extends Model
         'country',
         'phone',
         'member_since',
+        'notes',
     ];
 
     protected $casts = [

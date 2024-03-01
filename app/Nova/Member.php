@@ -14,6 +14,7 @@ use Laravel\Nova\Fields\Email;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Panel;
 use net\authorize\api\contract\v1 as AnetAPI;
@@ -146,6 +147,11 @@ class Member extends Resource
 
                 return $members[0]['access_enabled'] ?? false;
             })->onlyOnDetail(),
+            new Panel('Notes', [
+                Textarea::make(__('Notes'))
+                    ->alwaysShow()
+                    ->hideFromIndex(),
+            ]),
         ];
     }
 
