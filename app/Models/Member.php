@@ -31,6 +31,8 @@ class Member extends Model
         'contacts',
         'date_of_birth',
         'gender',
+        'email2',
+        'phone2',
     ];
 
     protected $casts = [

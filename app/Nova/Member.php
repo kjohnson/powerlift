@@ -161,6 +161,10 @@ class Member extends Resource
                 ->hideFromIndex(),
             Text::make(__('Gender'), 'gender')
                 ->hideFromIndex(),
+            Email::make(__('2nd Email'), 'email2')
+                ->hideFromIndex(),
+            Text::make(__('2nd Phone'), 'phone2')
+                ->hideFromIndex(),
         ];
     }
 
