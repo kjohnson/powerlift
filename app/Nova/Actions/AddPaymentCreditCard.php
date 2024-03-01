@@ -29,8 +29,8 @@ class AddPaymentCreditCard extends Action
         $member = $models->first();
 
         $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-        $merchantAuthentication->setName('42SdZ9B5sgT');
-        $merchantAuthentication->setTransactionKey('44H3Uf98772BpwxX');
+        $merchantAuthentication->setName(config('services.authnet.login_id'));
+        $merchantAuthentication->setTransactionKey(config('services.authnet.transaction_key'));
 
         // Set the transaction's refId
         $refId = 'ref' . time();
@@ -71,7 +71,7 @@ class AddPaymentCreditCard extends Action
 
         // Create the controller and get the response
         $controller = new AnetController\CreateCustomerProfileController($request);
-        $response = $controller->executeWithApiResponse(\net\authorize\api\constants\ANetEnvironment::SANDBOX);
+        $response = $controller->executeWithApiResponse(config('services.authnet.env'));
 
         if (($response != null) && ($response->getMessages()->getResultCode() == "Ok")) {
 

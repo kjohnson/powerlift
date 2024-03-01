@@ -76,8 +76,8 @@ class Member extends Resource
                 Text::make('Subscription', function() {
 
                     $merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
-                    $merchantAuthentication->setName('42SdZ9B5sgT');
-                    $merchantAuthentication->setTransactionKey('44H3Uf98772BpwxX');
+                    $merchantAuthentication->setName(config('services.authnet.login_id'));
+                    $merchantAuthentication->setTransactionKey(config('services.authnet.transaction_key'));
 
                     if($this->authnet_subscription_id){
                         $request = new AnetAPI\ARBGetSubscriptionRequest();
@@ -87,7 +87,7 @@ class Member extends Resource
                         $request->setIncludeTransactions(true);
 
                         $controller = new AnetController\ARBGetSubscriptionController($request);
-                        $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+                        $response = $controller->executeWithApiResponse( config('services.authnet.env'));
                         $subscription = $response->getSubscription();
                         return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
                     }
@@ -96,7 +96,7 @@ class Member extends Resource
                     $request->setMerchantAuthentication($merchantAuthentication);
                     $request->setEmail($this->email);
                     $controller = new AnetController\GetCustomerProfileController($request);
-                    $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+                    $response = $controller->executeWithApiResponse( config('services.authnet.env'));
 
                     return $response->getSubscriptionIds() ? json_encode(array_map(function($subscriptionId) use ($merchantAuthentication) {
                         $request = new AnetAPI\ARBGetSubscriptionRequest();
@@ -106,7 +106,7 @@ class Member extends Resource
                         $request->setIncludeTransactions(true);
 
                         $controller = new AnetController\ARBGetSubscriptionController($request);
-                        $response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+                        $response = $controller->executeWithApiResponse( config('services.authnet.env'));
                         $subscription = $response->getSubscription();
                         return $subscription->getName() . ' (' . $subscription->getStatus(). ')';
                     }, array_values($response->getSubscriptionIds()))) : 'No subscription';

@@ -39,4 +39,10 @@ return [
         'default_place_id' => env('KISI_PLACE_ID'),
     ],
 
+    'authnet' => [
+        'login_id' => env('AUTHNET_LOGIN_ID'), // config('services.authnet.login_id')
+        'transaction_key' => env('AUTHNET_TRANSACTION_KEY'), // config('services.authnet.transaction_key')
+        'env' => env('AUTHNET_env'), // config('services.authnet.env')
+    ]
+
 ];
