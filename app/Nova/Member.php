@@ -157,6 +157,10 @@ class Member extends Resource
                     ->alwaysShow()
                     ->hideFromIndex(),
             ]),
+            Date::make(__('Date of Birth'), 'date_of_birth')
+                ->hideFromIndex(),
+            Text::make(__('Gender'), 'gender')
+                ->hideFromIndex(),
         ];
     }
 

@@ -13,6 +13,7 @@ class Member extends Model
         'first_name',
         'last_name',
         'member_id',
+        'pin',
         'email',
         'authnet_subscription_id',
         'authnet_customer_profile_id',
@@ -28,6 +29,8 @@ class Member extends Model
         'member_since',
         'notes',
         'contacts',
+        'date_of_birth',
+        'gender',
     ];
 
     protected $casts = [
