@@ -27,6 +27,7 @@ class Member extends Model
         'phone',
         'member_since',
         'notes',
+        'contacts',
     ];
 
     protected $casts = [

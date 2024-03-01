@@ -152,6 +152,11 @@ class Member extends Resource
                     ->alwaysShow()
                     ->hideFromIndex(),
             ]),
+            new Panel('Contacts', [
+                Textarea::make(__('Contacts'))
+                    ->alwaysShow()
+                    ->hideFromIndex(),
+            ]),
         ];
     }
 
