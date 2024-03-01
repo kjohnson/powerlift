@@ -37,6 +37,7 @@ class Member extends Model
 
     protected $casts = [
         'member_since' => 'date',
+        'date_of_birth' => 'date',
     ];
 
     protected $hidden = [
